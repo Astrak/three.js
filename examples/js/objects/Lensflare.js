@@ -47,11 +47,16 @@ THREE.Lensflare = function () {
 			'uniform vec3 screenPosition;',
 			'uniform vec2 scale;',
 
+			'#define EPSILON 1e-6',
+			THREE.ShaderChunk[ 'logdepthbuf_pars_vertex' ],
+
 			'attribute vec3 position;',
 
 			'void main() {',
 
 			'	gl_Position = vec4( position.xy * scale + screenPosition.xy, screenPosition.z, 1.0 );',
+
+				THREE.ShaderChunk[ 'logdepthbuf_vertex' ],
 
 			'}'
 
@@ -60,7 +65,11 @@ THREE.Lensflare = function () {
 
 			'precision highp float;',
 
+			THREE.ShaderChunk[ 'logdepthbuf_pars_fragment' ],
+
 			'void main() {',
+
+				THREE.ShaderChunk[ 'logdepthbuf_fragment' ],
 
 			'	gl_FragColor = vec4( 1.0, 0.0, 1.0, 1.0 );',
 
@@ -71,6 +80,8 @@ THREE.Lensflare = function () {
 		depthWrite: false,
 		transparent: false
 	} );
+	material1a.defines = material1a.defines || {};
+	//material1a.defines[ 'USE_LOGDEPTHBUF' ] = '';
 
 	var material1b = new THREE.RawShaderMaterial( {
 		uniforms: {
@@ -118,7 +129,6 @@ THREE.Lensflare = function () {
 		depthWrite: false,
 		transparent: false
 	} );
-
 	// the following object is used for occlusionMap generation
 
 	var mesh1 = new THREE.Mesh( geometry, material1a );

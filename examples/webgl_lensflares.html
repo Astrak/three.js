@@ -42,7 +42,7 @@
 
 		<script src="../build/three.js"></script>
 
-		<script src="js/controls/FlyControls.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/objects/Lensflare.js"></script>
 
 		<script src="js/libs/stats.min.js"></script>
@@ -69,14 +69,7 @@
 				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 15000 );
 				camera.position.z = 250;
 
-				controls = new THREE.FlyControls( camera );
-
-				controls.movementSpeed = 2500;
-				controls.domElement = container;
-				controls.rollSpeed = Math.PI / 6;
-				controls.autoForward = false;
-				controls.dragToLook = false;
-
+				controls = new THREE.OrbitControls( camera );
 				// scene
 
 				scene = new THREE.Scene();
@@ -146,7 +139,7 @@
 
 				// renderer
 
-				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true, logarithmicDepthBuffer: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
