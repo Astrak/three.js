@@ -161,7 +161,11 @@ function WebGLRenderer( parameters ) {
 
 		_projScreenMatrix = new Matrix4(),
 
-		_vector3 = new Vector3();
+		_vector3 = new Vector3(),
+
+		//internal render id
+
+		_renderId = 0;
 
 	function getTargetPixelRatio() {
 
@@ -1082,6 +1086,8 @@ function WebGLRenderer( parameters ) {
 
 		if ( _isContextLost ) return;
 
+		renderId ++;
+
 		// reset caching for this frame
 
 		_currentGeometryProgram = '';
@@ -1132,7 +1138,7 @@ function WebGLRenderer( parameters ) {
 
 		var shadowsArray = currentRenderState.state.shadowsArray;
 
-		shadowMap.render( shadowsArray, scene, camera );
+		shadowMap.render( shadowsArray, scene, camera, renderId );
 
 		currentRenderState.setupLights( camera );
 
@@ -1324,7 +1330,7 @@ function WebGLRenderer( parameters ) {
 
 					}
 
-					var geometry = objects.update( object );
+					var geometry = objects.update( object, renderId );
 					var material = object.material;
 
 					if ( Array.isArray( material ) ) {

@@ -93,7 +93,7 @@ function WebGLShadowMap( _renderer, _objects, maxTextureSize ) {
 
 	this.type = PCFShadowMap;
 
-	this.render = function ( lights, scene, camera ) {
+	this.render = function ( lights, scene, camera, renderId ) {
 
 		if ( scope.enabled === false ) return;
 		if ( scope.autoUpdate === false && scope.needsUpdate === false ) return;
@@ -250,7 +250,7 @@ function WebGLShadowMap( _renderer, _objects, maxTextureSize ) {
 
 				// set object matrices & frustum culling
 
-				renderObject( scene, camera, shadowCamera, isPointLight );
+				renderObject( scene, camera, shadowCamera, isPointLight, renderId );
 
 			}
 
@@ -370,7 +370,7 @@ function WebGLShadowMap( _renderer, _objects, maxTextureSize ) {
 
 	}
 
-	function renderObject( object, camera, shadowCamera, isPointLight ) {
+	function renderObject( object, camera, shadowCamera, isPointLight, renderId ) {
 
 		if ( object.visible === false ) return;
 
@@ -382,7 +382,7 @@ function WebGLShadowMap( _renderer, _objects, maxTextureSize ) {
 
 				object.modelViewMatrix.multiplyMatrices( shadowCamera.matrixWorldInverse, object.matrixWorld );
 
-				var geometry = _objects.update( object );
+				var geometry = _objects.update( object, renderId );
 				var material = object.material;
 
 				if ( Array.isArray( material ) ) {

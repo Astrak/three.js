@@ -6,16 +6,14 @@ function WebGLObjects( geometries, info ) {
 
 	var updateList = {};
 
-	function update( object ) {
-
-		var frame = info.render.frame;
+	function update( object, renderId ) {
 
 		var geometry = object.geometry;
 		var buffergeometry = geometries.get( object, geometry );
 
-		// Update once per frame
+		// Update once per call to renderer.render
 
-		if ( updateList[ buffergeometry.id ] !== frame ) {
+		if ( updateList[ buffergeometry.id ] !== renderId ) {
 
 			if ( geometry.isGeometry ) {
 
@@ -25,7 +23,7 @@ function WebGLObjects( geometries, info ) {
 
 			geometries.update( buffergeometry );
 
-			updateList[ buffergeometry.id ] = frame;
+			updateList[ buffergeometry.id ] = renderId;
 
 		}
 
